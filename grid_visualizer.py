@@ -342,8 +342,9 @@ if __name__ == "__main__":
     ap.add_argument("-o", "--out", help="save to PNG instead of showing")
     args = ap.parse_args()
 
-    output_file = str(Path("grid_visuals") / Path(args.out))
+    input_file = str(Path("graphs") / args.file / (args.file + "_placement.txt"))
+    output_file = str(Path("graphs") / args.file / (args.file + "_grid.png"))
 
-    R, C, tiles, paths, node_pt = parse_placement(args.file)
+    R, C, tiles, paths, node_pt = parse_placement(input_file)
     classify_compute_nodes(tiles, paths)
     draw(R, C, tiles, paths, save=output_file)

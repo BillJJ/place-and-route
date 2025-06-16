@@ -44,6 +44,7 @@ Example:
 """
 
 import argparse
+from pathlib import Path
 import random
 import sys
 
@@ -53,6 +54,7 @@ import matplotlib.pyplot as plt
 
 
 DIMENSIONS = (10, 10)
+FILE_STORAGE_PATH = "graphs"
 
 def compute_possible_edge_count(n: int, k_in: int, k_out: int) -> int:
     """
@@ -195,7 +197,10 @@ def write_graph_to_file(
       src_id  dst_id
       ...
     """
-    with open(filename + ".txt", "w") as f:
+    parent_dir = Path(FILE_STORAGE_PATH) / filename
+    parent_dir.mkdir(exist_ok=True, parents=True)
+
+    with open(str(Path(FILE_STORAGE_PATH) / filename / (filename + "_input.txt")), "w") as f:
         f.write("# Nodes\n")
         for node_id in sorted(proc_times.keys()):
             f.write(f"{node_id} {proc_times[node_id]}\n")
@@ -301,9 +306,10 @@ def visualize_and_save(
     plt.tight_layout()
 
     png_name = output_filename.rsplit(".", 1)[0] + ".png"
-    plt.savefig(png_name, dpi=200)
+    path = "graphs/" + output_filename + "/" + output_filename + ".png"
+    plt.savefig(path, dpi=200)
     plt.close()
-    print(f"Visualization saved as '{png_name}'.")
+    print(f"Visualization saved as '{path}'.")
 
 
 def parse_arguments():
@@ -349,7 +355,7 @@ def parse_arguments():
     parser.add_argument(
         "output_file",
         nargs="?",
-        default="dag_output.txt",
+        default="dag_output",
         help="Output file path (default: dag_output.txt)",
     )
 

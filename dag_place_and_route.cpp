@@ -91,10 +91,10 @@ struct Problem
     int R = 0, C = 0;
 };
 
-Problem readDag(const string &fn)
-{
-    ifstream fin(fn);
-    if (!fin)
+Problem readDag(const string &fn) {
+    string path = "graphs/" + fn + "/" + fn + "_input.txt";
+    ifstream fin(path);
+    if (!fin.is_open())
         throw runtime_error("cannot open " + fn);
     enum Sect
     {
@@ -375,9 +375,9 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
 }
 
 /*------------------------------------------------- output ----------*/
-void writeOut(const Problem &p, const SolveResult &S, const string &fn)
-{
-    ofstream f(fn);
+void writeOut(const Problem &p, const SolveResult &S, const string &fn) {   
+    string parent_dir = "graphs/" + fn + "/"; 
+    ofstream f(parent_dir + fn + "_placement.txt");
     f << "# Grid\n"
       << S.grid.R << " " << S.grid.C << "\n";
     f << "# Tiles (row col comp routeCnt)\n";
@@ -415,16 +415,14 @@ void writeOut(const Problem &p, const SolveResult &S, const string &fn)
 }
 
 /*------------------------------------------------- main ------------*/
-int main(int argc, char **argv)
-{
-    if (argc < 2)
-    {
-        cerr << "usage: " << argv[0] << " dag.txt [out] [trials]\n";
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        cerr << "usage: " << argv[0] << " <input_name> [trials]\n";
         return 1;
     }
     string in = argv[1];
-    string out = (argc > 2 ? argv[2] : "placement.txt");
-    int trials = (argc > 3 ? stoi(argv[3]) : 2000);
+    string out = in;
+    int trials = (argc > 2 ? stoi(argv[2]) : 2000);
     try
     {
         Problem P = readDag(in);
