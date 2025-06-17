@@ -1,0 +1,297 @@
+# Grid
+16 8
+# Tiles (row col comp routeCnt)
+0 0 -1 1
+0 1 -1 2
+0 2 4 1
+0 3 -1 1
+0 4 -1 1
+0 5 -1 1
+0 6 -1306415904 0
+0 7 -1 1
+1 0 1 0
+1 1 -1 2
+1 2 -1 2
+1 3 -1 1
+1 4 -1 1
+1 5 -1 1
+1 6 -1 1
+1 7 -1 1
+2 0 -1 2
+2 1 -1 2
+2 2 -1 2
+2 3 -1 1
+2 4 -1 1
+2 5 -1 1
+2 6 -1 2
+2 7 -1 1
+3 0 -1 1
+3 1 -1 2
+3 2 -1 2
+3 3 -1 1
+3 4 -1 1
+3 5 -1 2
+3 6 -1 2
+3 7 -1 1
+4 1 -1 1
+4 2 -1 1
+4 5 -1 2
+4 6 -1 2
+4 7 -1 1
+5 1 -1 1
+5 2 -1 1
+5 5 -1 2
+5 6 -1 2
+5 7 -1 1
+6 0 -1 1
+6 1 -1 1
+6 2 -1 1
+6 3 -1 1
+6 4 -1 2
+6 5 2 1
+6 6 -1 2
+6 7 -1 1
+7 0 -1 1
+7 1 -1 1
+7 2 -1 1
+7 3 5 0
+7 4 -1 2
+7 5 -1 2
+7 6 -1 2
+7 7 -1 1
+8 0 -1 1
+8 1 -1 1
+8 2 -1 1
+8 3 -1 2
+8 4 -1 2
+8 5 -1 2
+8 6 -1 2
+9 0 -1 2
+9 1 -1 2
+9 2 -1 1
+9 3 -1 2
+9 4 -1 1
+9 5 -1 2
+9 6 -1 2
+10 0 0 0
+10 1 -1 2
+10 2 -1 2
+10 3 -1 2
+10 4 -1 2
+10 5 -1 2
+10 6 -1 2
+10 7 -1 1
+11 0 -1 2
+11 1 -1 2
+11 2 -1 1
+11 3 -1 1
+11 4 -1 1
+11 5 -1 2
+11 6 -1 2
+11 7 -1 2
+12 3 -1 1
+12 4 -1 1
+12 5 6 1
+12 6 -1 2
+12 7 -1 2
+13 3 -1 1
+13 4 -1 1
+13 5 -1 1
+13 6 -1 1
+13 7 3 0
+# Paths (each edge listed in order given in input)
+19
+EDGE 0 9
+10 0 U C R
+9 0 U R R
+8 0 U R R
+7 0 U R R
+6 0 R R R
+6 1 R R R
+6 2 R R R
+6 3 R R R
+6 4 R R C
+EDGE 1 10
+10 0 R C R
+10 1 R R R
+10 2 R R R
+10 3 R R R
+10 4 R R R
+10 5 R R R
+10 6 R R R
+10 7 D R R
+11 7 D R R
+12 7 D R C
+EDGE 2 12
+10 0 U C R
+9 0 R R R
+9 1 U R R
+8 1 U R R
+7 1 U R R
+6 1 U R R
+5 1 U R R
+4 1 U R R
+3 1 U R R
+2 1 U R R
+1 1 U R R
+0 1 R R C
+EDGE 3 18
+10 0 D C R
+11 0 R R R
+11 1 U R R
+10 1 U R R
+9 1 U R R
+8 1 R R R
+8 2 U R R
+7 2 U R R
+6 2 U R R
+5 2 U R R
+4 2 U R R
+3 2 U R R
+2 2 U R R
+1 2 U R R
+0 2 R R R
+0 3 R R R
+0 4 R R R
+0 5 R R C
+EDGE 4 10
+1 0 R C R
+1 1 R R R
+1 2 R R R
+1 3 R R R
+1 4 R R R
+1 5 D R R
+2 5 D R R
+3 5 D R R
+4 5 D R R
+5 5 D R C
+EDGE 5 19
+1 0 D C R
+2 0 R R R
+2 1 R R R
+2 2 R R R
+2 3 R R R
+2 4 R R R
+2 5 R R R
+2 6 D R R
+3 6 D R R
+4 6 D R R
+5 6 D R R
+6 6 D R R
+7 6 D R R
+8 6 D R R
+9 6 D R R
+10 6 D R R
+11 6 D R R
+12 6 D R R
+13 6 R R C
+EDGE 6 3
+6 5 D C R
+7 5 L R R
+7 4 L R C
+EDGE 7 8
+6 5 L C R
+6 4 D R R
+7 4 R R R
+7 5 D R R
+8 5 D R R
+9 5 D R R
+10 5 D R R
+11 5 D R C
+EDGE 8 10
+6 5 U C R
+5 5 U R R
+4 5 U R R
+3 5 L R R
+3 4 L R R
+3 3 L R R
+3 2 L R R
+3 1 L R R
+3 0 U R R
+2 0 U R C
+EDGE 9 10
+13 7 U C R
+12 7 U R R
+11 7 L R R
+11 6 L R R
+11 5 L R R
+11 4 U R R
+10 4 L R R
+10 3 L R R
+10 2 L R R
+10 1 L R C
+EDGE 10 0
+EDGE 11 20
+13 7 U C R
+12 7 L R R
+12 6 L R R
+12 5 L R R
+12 4 U R R
+11 4 U R R
+10 4 L R R
+10 3 U R R
+9 3 U R R
+8 3 R R R
+8 4 R R R
+8 5 U R R
+7 5 U R R
+6 5 R R R
+6 6 U R R
+5 6 U R R
+4 6 U R R
+3 6 U R R
+2 6 U R R
+1 6 U R C
+EDGE 12 0
+EDGE 13 0
+EDGE 14 0
+EDGE 15 3
+0 2 L C R
+0 1 L R R
+0 0 D R C
+EDGE 16 6
+7 3 D C R
+8 3 D R R
+9 3 L R R
+9 2 L R R
+9 1 L R R
+9 0 D R C
+EDGE 17 16
+7 3 R C R
+7 4 D R R
+8 4 D R R
+9 4 R R R
+9 5 R R R
+9 6 U R R
+8 6 U R R
+7 6 R R R
+7 7 U R R
+6 7 U R R
+5 7 U R R
+4 7 U R R
+3 7 U R R
+2 7 U R R
+1 7 U R R
+0 7 L R C
+EDGE 18 9
+12 5 D C R
+13 5 L R R
+13 4 L R R
+13 3 U R R
+12 3 U R R
+11 3 L R R
+11 2 L R R
+11 1 L R R
+11 0 U R C
+# Node Positions and Processing times
+10
+0 10 0 14
+1 1 0 17
+2 6 5 13
+3 13 7 13
+4 0 2 16
+5 7 3 18
+6 12 5 16
+7 10 0 14
+8 1 0 20
+9 0 6 12

@@ -1,0 +1,143 @@
+# Grid
+10 10
+# Tiles (row col comp routeCnt)
+0 4 -1 1
+0 5 1 0
+0 6 -1 1
+0 7 -1 1
+0 8 -1 1
+1 4 -1 1
+1 5 -1 1
+1 6 -1 1
+1 7 -1 1
+1 8 -1 1
+2 4 -1 1
+2 7 -1 1
+2 8 -1 1
+3 4 -1 1
+3 7 -1 1
+3 8 -1 1
+4 4 -1 1
+4 7 -1 1
+4 8 -1 1
+5 4 -1 1
+5 7 -1 1
+5 8 -1 1
+6 3 -1 1
+6 4 -1 2
+6 5 -1 1
+6 6 -1 1
+6 7 -1 2
+6 8 2 0
+6 9 -1 1
+7 2 -1 1
+7 3 -1 2
+7 4 -1 2
+7 5 -1 1
+7 6 -1 1
+7 7 -1 2
+7 8 -1 2
+7 9 -1 1
+8 2 -1 1
+8 3 -1 2
+8 4 -1 2
+8 5 -1 1
+8 6 -1 2
+8 7 -1 2
+8 8 -1 2
+8 9 -1 1
+9 2 -1 1
+9 3 0 0
+9 4 -1 2
+9 5 -1 1
+9 6 -1 1
+9 7 -1 1
+9 8 3 0
+9 9 -1 1
+# Paths (each edge listed in order given in input)
+9
+EDGE 0 8
+9 3 U C R
+8 3 U R R
+7 3 U R R
+6 3 R R R
+6 4 R R R
+6 5 R R R
+6 6 R R R
+6 7 R R C
+EDGE 1 5
+9 3 R C R
+9 4 R R R
+9 5 R R R
+9 6 R R R
+9 7 R R C
+EDGE 2 0
+EDGE 3 9
+0 5 R C R
+0 6 R R R
+0 7 R R R
+0 8 D R R
+1 8 D R R
+2 8 D R R
+3 8 D R R
+4 8 D R R
+5 8 D R C
+EDGE 4 12
+0 5 D C R
+1 5 R R R
+1 6 R R R
+1 7 D R R
+2 7 D R R
+3 7 D R R
+4 7 D R R
+5 7 D R R
+6 7 D R R
+7 7 R R R
+7 8 D R R
+8 8 D R C
+EDGE 5 11
+0 5 L C R
+0 4 D R R
+1 4 D R R
+2 4 D R R
+3 4 D R R
+4 4 D R R
+5 4 D R R
+6 4 D R R
+7 4 D R R
+8 4 D R R
+9 4 L R C
+EDGE 6 5
+6 8 R C R
+6 9 D R R
+7 9 D R R
+8 9 D R R
+9 9 L R C
+EDGE 7 8
+6 8 D C R
+7 8 L R R
+7 7 D R R
+8 7 L R R
+8 6 L R R
+8 5 L R R
+8 4 L R R
+8 3 D R C
+EDGE 8 11
+9 8 U C R
+8 8 L R R
+8 7 L R R
+8 6 U R R
+7 6 L R R
+7 5 L R R
+7 4 L R R
+7 3 L R R
+7 2 D R R
+8 2 D R R
+9 2 R R C
+# Node Positions and Processing times
+5
+0 9 3 10
+1 0 5 10
+2 6 8 10
+3 9 8 10
+4 9 3 10

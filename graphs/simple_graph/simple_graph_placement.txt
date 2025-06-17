@@ -1,0 +1,41 @@
+# Grid
+10 10
+# Tiles (row col comp routeCnt)
+5 3 -1 1
+5 4 -1 1
+5 5 -1 1
+5 6 1 0
+6 3 -1 1
+6 6 -1 1
+7 3 -1 1
+7 6 -1 1
+8 3 -1 1
+8 6 -1 1
+9 3 0 0
+9 4 -1 1
+9 5 -1 1
+9 6 -1 1
+# Paths (each edge listed in order given in input)
+3
+EDGE 0 7
+9 3 U C R
+8 3 U R R
+7 3 U R R
+6 3 U R R
+5 3 R R R
+5 4 R R R
+5 5 R R C
+EDGE 1 0
+EDGE 2 7
+5 6 D C R
+6 6 D R R
+7 6 D R R
+8 6 D R R
+9 6 L R R
+9 5 L R R
+9 4 L R C
+# Node Positions and Processing times
+3
+0 9 3 10
+1 5 6 10
+2 9 3 10

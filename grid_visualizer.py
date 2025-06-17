@@ -45,7 +45,7 @@ import matplotlib.colors as mcolors
 import matplotlib.cm as cm
 import numpy as np
 
-ROUTE_NODE_PROCESSING_TIME = 2
+ROUTE_NODE_PROCESSING_TIME = 10
 
 # ---------------------------------------------------------------------------
 #   parse placement file

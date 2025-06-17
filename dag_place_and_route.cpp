@@ -75,12 +75,11 @@ struct Grid
 // Distinguish between up/down and left/right with negative / positive
 // Going up is -1, down is 1, left = -1, right = 1,
 // If 0, then it's free use
-struct EdgeUse
-{
-    vector<vector<char>> v; // vertical   size (R‑1) × C
-    vector<vector<char>> h; // horizontal size  R    × (C‑1)
-    EdgeUse(int R, int C) : v(max(0, R - 1), vector<char>(C, 0)),
-                            h(R, vector<char>(max(0, C - 1), 0)) {}
+struct EdgeUse {
+    vector<vector<bool>> used[4]; // used[direction][row][col] true / false
+    EdgeUse(int R, int C) {
+        for (int i = 0; i < 4; i++) used[i].assign(R, vector<bool> (C, 0));
+    }
 };
 
 /*------------------------------------------------- input problem ---*/
@@ -170,8 +169,7 @@ static inline bool same_data_type(Grid &grid, const pii compute_src, const pii r
 }
 
 /*------------------------------------------------- edge path record -*/
-struct Segment
-{                // one boundary‑crossing
+struct Segment {                // one boundary‑crossing
     int r, c;    // origin tile coord
     Dir dir;     // direction data left origin tile
     NodeKind from, to; // logical node kinds (C/R) on origin & dest tiles
@@ -191,15 +189,7 @@ bool routeEdge(Grid &grid, EdgeUse &edge_use, const pii &src, const pii &dst, ve
     vis[src.first][src.second] = 1;
     auto edgeFree = [&](int r, int c, Dir d) { // check if an edge is free in that direction
         // note that new tile will always be inside the graph
-        if (d == Dir::Up) {
-            return edge_use.v[r - 1][c] != 1;
-        } else if (d == Dir::Down) {
-            return edge_use.v[r][c] != -1;
-        } else if (d == Dir::Left) {
-            return edge_use.h[r][c-1] != 1;
-        } else {
-            return edge_use.h[r][c] != -1;
-        }
+        return edge_use.used[(int)d][r][c] == 0;
     };
 
     while (!q.empty()) {
@@ -238,11 +228,7 @@ bool routeEdge(Grid &grid, EdgeUse &edge_use, const pii &src, const pii &dst, ve
         Dir d = parent.dir;
 
         // reserve edge boundary
-        if (d == Dir::Up || d == Dir::Down) {
-            edge_use.v[min(pr, r)][pc] = (d == Dir::Up ? -1 : 1);
-        } else {
-            edge_use.h[pr][min(pc, c)] = (d == Dir::Left ? -1 : 1);
-        }
+        edge_use.used[(int)d][min(pr, r)][min(pc, c)] = 1;
 
         NodeKind fromKind;
         const Tile &Tsrc = grid.at(pr, pc);
@@ -279,8 +265,9 @@ struct SolveResult
     vector<vector<Segment>> paths;  // one vector per edge (same order as Problem.adj iteration)
 };
 
-bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
-{
+bool solve(const Problem &problem, SolveResult &result, int trials = 100000) {
+
+    // collect which nodes are inputs / outputs / mids
     const int NUM_NODES = problem.pt.size();
     vector<int> inDeg(NUM_NODES, 0), outDeg(NUM_NODES, 0);
     for (int u = 0; u < NUM_NODES; ++u)
@@ -298,6 +285,18 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
         else
             mids.push_back(i);
 
+    // collect edge positions
+    vector<pii> edge_positions;
+    for (int i = 0; i < problem.R; i++) {
+        edge_positions.push_back({i, 0});
+        edge_positions.push_back({i, problem.C - 1});
+    }
+    for (int j = 0; j < problem.C; j++) {
+        edge_positions.push_back({0, j});
+        edge_positions.push_back({problem.R - 1, j});
+    }
+
+
     // mt19937 rng((unsigned)chrono::steady_clock::now().time_since_epoch().count());
     mt19937 rng(0);
     Grid grid;
@@ -307,36 +306,17 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
     {
         grid = Grid(problem.R, problem.C);
         fill(node_position.begin(), node_position.end(), make_pair(-1, -1));
-        // place inputs top‑first
-        int rT = 0, cT = 0;
-        for (int id : ins)
-        {
-            if (cT == grid.C)
-            {
-                ++rT;
-                cT = 0;
+        // place inputs / outputs at random places on the edges
+        assert(ins.size() + outs.size() < grid.R * 2 + grid.C * 2 - 4); // enough space for all ins and outs
+        shuffle(edge_positions.begin(), edge_positions.end(), rng);
+        for (auto v : {ins, outs}) {
+            for (int i = 0; i < v.size(); i++) {
+                int x = edge_positions[i].first, y = edge_positions[i].second;
+                grid.at(x, y).comp = ins[i];
+                node_position[v[i]] = {x, y};
             }
-            if (rT >= grid.R)
-                break;
-            grid.at(rT, cT).comp = id;
-            node_position[id] = {rT, cT};
-            ++cT;
         }
-        // place outputs bottom‑first
-        int rB = grid.R - 1, cB = 0;
-        for (int id : outs)
-        {
-            if (cB == grid.C)
-            {
-                --rB;
-                cB = 0;
-            }
-            if (rB < 0)
-                break;
-            grid.at(rB, cB).comp = id;
-            node_position[id] = {rB, cB};
-            ++cB;
-        }
+
         // free list for mids
         vector<pii> free;
         for (int r = 0; r < grid.R; ++r)
@@ -367,7 +347,7 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
         if (ok) {
             result.grid = move(grid);
             result.pos = move(node_position);
-            result.paths = move(paths);
+            result.paths = move(paths);    
             return true;
         }
     }
@@ -375,15 +355,16 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 10000)
 }
 
 /*------------------------------------------------- output ----------*/
-void writeOut(const Problem &p, const SolveResult &S, const string &fn) {   
+void writeOut(const Problem &problem, const SolveResult &result, const string &fn) {   
     string parent_dir = "graphs/" + fn + "/"; 
     ofstream f(parent_dir + fn + "_placement.txt");
     f << "# Grid\n"
-      << S.grid.R << " " << S.grid.C << "\n";
+      << result.grid.R << " " << result.grid.C << "\n";
     f << "# Tiles (row col comp routeCnt)\n";
-    for (int r = 0; r < S.grid.R; ++r)
-        for (int c = 0; c < S.grid.C; ++c) {
-            const Tile &t = S.grid.at(r,c);
+
+    for (int r = 0; r < result.grid.R; ++r)
+        for (int c = 0; c < result.grid.C; ++c) {
+            const Tile &t = result.grid.at(r,c);
             /* ---- ASSERT LEGAL CONFIG ---- */
             if (t.comp != -1)               // has a compute
                 assert(t.rCnt <= 1);
@@ -396,9 +377,9 @@ void writeOut(const Problem &p, const SolveResult &S, const string &fn) {
         }
 
     f << "# Paths (each edge listed in order given in input)\n";
-    f << S.paths.size() << endl;
+    f << result.paths.size() << endl;
     size_t idx = 0;
-    for (const auto &vec : S.paths)
+    for (const auto &vec : result.paths)
     {
         f << "EDGE " << idx++ << " " << vec.size() << "\n";
         for (const auto &s : vec)
@@ -407,9 +388,9 @@ void writeOut(const Problem &p, const SolveResult &S, const string &fn) {
         }
     }
     f << "# Node Positions and Processing times\n";
-    f << S.pos.size() << endl;
-    for (int i = 0; i < S.pos.size(); i++) {
-        f << i << " " << S.pos[i].first << " " << S.pos[i].second << " " << p.pt[i] << endl;
+    f << result.pos.size() << endl;
+    for (int i = 0; i < result.pos.size(); i++) {
+        f << i << " " << result.pos[i].first << " " << result.pos[i].second << " " << problem.pt[i] << endl;
     }
     
 }
