@@ -288,10 +288,10 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 100000) {
     // collect edge positions
     vector<pii> edge_positions;
     for (int i = 0; i < problem.R; i++) {
-        edge_positions.push_back({i, 0});
+        edge_positions.push_back({i, 0}); // first and last column
         edge_positions.push_back({i, problem.C - 1});
     }
-    for (int j = 0; j < problem.C; j++) {
+    for (int j = 1; j < problem.C - 1; j++) { // ignore first and last column
         edge_positions.push_back({0, j});
         edge_positions.push_back({problem.R - 1, j});
     }
@@ -307,14 +307,17 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 100000) {
         grid = Grid(problem.R, problem.C);
         fill(node_position.begin(), node_position.end(), make_pair(-1, -1));
         // place inputs / outputs at random places on the edges
-        assert(ins.size() + outs.size() < grid.R * 2 + grid.C * 2 - 4); // enough space for all ins and outs
+        assert(ins.size() + outs.size() <= grid.R * 2 + grid.C * 2 - 4); // enough space for all ins and outs
         shuffle(edge_positions.begin(), edge_positions.end(), rng);
-        for (auto v : {ins, outs}) {
-            for (int i = 0; i < v.size(); i++) {
-                int x = edge_positions[i].first, y = edge_positions[i].second;
-                grid.at(x, y).comp = v[i];
-                node_position[v[i]] = {x, y};
-            }
+
+        int shuffle_idx = 0;
+        vector<int> ios = ins;
+        ios.insert(ios.end(), outs.begin(), outs.end());
+        for (int i = 0; i < ios.size(); i++) {
+            int x = edge_positions[i].first, y = edge_positions[i].second;
+            grid.at(x, y).comp = ios[i];
+            cout << ios[i] << " position = " << x << " " << y << endl;
+            node_position[ios[i]] = {x, y};
         }
 
         // free list for mids
