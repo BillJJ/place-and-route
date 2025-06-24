@@ -312,7 +312,7 @@ bool solve(const Problem &problem, SolveResult &result, int trials = 100000) {
         for (auto v : {ins, outs}) {
             for (int i = 0; i < v.size(); i++) {
                 int x = edge_positions[i].first, y = edge_positions[i].second;
-                grid.at(x, y).comp = ins[i];
+                grid.at(x, y).comp = v[i];
                 node_position[v[i]] = {x, y};
             }
         }
